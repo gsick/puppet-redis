@@ -9,29 +9,29 @@ class redis(
   singleton_packages('gcc', 'wget')
 
   file { 'conf dir':
-    name => "${conf_dir}",
+    name   => "${conf_dir}",
     ensure => directory,
   }
 
   exec { 'download redis':
-    cwd => "${tmp}",
+    cwd     => "${tmp}",
     command => "/usr/bin/wget http://download.redis.io/releases/redis-${version}.tar.gz",
     creates => "${tmp}/redis-${version}.tar.gz",
-    notify => Exec['untar redis'],
+    notify  => Exec['untar redis'],
     require => Package['wget'],
   }
 
   exec { 'untar redis':
-    cwd => "${tmp}",
+    cwd     => "${tmp}",
     command => "/bin/tar -zxvf redis-${version}.tar.gz",
     creates => "${tmp}/redis-${version}/Makefile",
-    notify => Exec['install redis'],
+    notify  => Exec['install redis'],
   }
 
   exec { 'install redis':
-    cwd => "${tmp}/redis-${version}",
+    cwd     => "${tmp}/redis-${version}",
     command => 'make && make install',
-    path => '/bin:/usr/bin',
+    path    => '/bin:/usr/bin',
     creates => '/usr/local/bin/redis-server',
     require => Package['gcc'],
   }
@@ -64,11 +64,18 @@ class redis(
   }
 
   file { 'data dir':
-    name => "${dir}",
+    name   => "${dir}",
     ensure => directory,
   }
 
-
+  file { "init file":
+    name    => "/etc/init.d/redis_${port}"
+    owner   => root,
+    group   => root,
+    mode    => 755,
+    content => template("${module_name}/redis_init_script.tpl"),
+    require => Exec['install redis'],
+  }
 
   #if $overwrite_default_conf {
     exec { 'copy default conf file':
@@ -100,13 +107,6 @@ class redis(
     }
   }
 
-#/bin/sh\n
-#Configurations injected by puppet....\n\n
 
-EXEC=/usr/local/bin/redis-server\n
-CLIEXEC=/usr/local/bin/redis-cli\n
-PIDFILE=${pidfile}\n
-CONF="/etc/redis/${port}.conf"\n
-REDISPORT="${port}"\n
 
 }

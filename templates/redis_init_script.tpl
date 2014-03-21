@@ -1,3 +1,12 @@
+#/bin/sh
+
+#Configurations injected by puppet....
+
+EXEC=/usr/local/bin/redis-server
+CLIEXEC=/usr/local/bin/redis-cli
+PIDFILE=<%= @pidfile %>
+CONF="/etc/redis/<%= @port %>.conf"
+REDISPORT="<%= @port %>"
 
 case "$1" in
     start)

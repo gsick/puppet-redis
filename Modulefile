@@ -9,4 +9,3 @@ project_page 'https://github.com/gsick/puppet-redis'
 
 dependency   'puppetlabs/stdlib', '>= 4.1.0'
 dependency   'pdxcat/singleton', '>= 0.0.5'
-dependency   'puppetlabs/concat', '>= 1.0.2'
