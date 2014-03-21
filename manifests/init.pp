@@ -73,7 +73,7 @@ class redis(
     owner   => root,
     group   => root,
     mode    => 755,
-    content => template("${module_name}/redis_init_script.tpl.erb"),
+    content => template("${module_name}/redis_port.erb"),
     notify  => Service['redis'],
   }
 
