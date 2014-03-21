@@ -1,24 +1,17 @@
 
 class redis(
-  $version                = hiera('redis::version'),
-  $conf        = hiera('redis::conf', {}),
-  $conf_dir                   = hiera('redis::conf_dir', '/etc/redis'),
-  $overwrite_default_conf        = hiera('redis::overwrite_default_conf', true),
-  
-  
-  $port                  = hiera('redis::port', 6379),
-  
-  $tmp                    = hiera('redis::tmp', '/tmp'),
-  
-  
-  
-  $group                  = hiera('redis::group', 'redis'),
-  $user                   = hiera('redis::user', 'redis'),
-  $home                   = hiera('redis::home', '/opt/redis'),
-  $log                    = hiera('jetty::log', '/var/log/jetty'),
+  $version          = hiera('redis::version'),
+  $conf             = hiera('redis::conf', {}),
+  $conf_dir         = hiera('redis::conf_dir', '/etc/redis'),
+  $tmp              = hiera('redis::tmp', '/tmp'),
 ) {
 
   singleton_packages('gcc', 'wget')
+
+  file { 'conf dir':
+    name => "${conf_dir}",
+    ensure => directory,
+  }
 
   exec { 'download redis':
     cwd => "${tmp}",
@@ -43,6 +36,9 @@ class redis(
     require => Package['gcc'],
   }
 
+  # It's more programmatically, but I don't want a fuck*** template...
+  # More chance to have auto-compatibility with future version
+
   if (empty($conf) or $conf[port] == '') {
     $port = 6379
   } else {
@@ -54,35 +50,63 @@ class redis(
   } else {
     $pidfile = $conf[pidfile]
   }
-  
-  $conf[pidfile] = $pidfile
 
-  if $overwrite_default_conf {
+  if (empty($conf) or $conf[logfile] == '') {
+    $logfile = "/var/log/redis_${port}.log"
+  } else {
+    $logfile = $conf[logfile]
+  }
+
+  if (empty($conf) or $conf[dir] == '') {
+    $dir = "/var/lib/redis/${port}"
+  } else {
+    $dir = $conf[dir]
+  }
+
+  file { 'data dir':
+    name => "${dir}",
+    ensure => directory,
+  }
+
+
+
+  #if $overwrite_default_conf {
     exec { 'copy default conf file':
       cwd => "${tmp}/redis-${version}",
       command => "cp redis.conf ${conf_dir}/${port}.conf",
       path => '/bin:/usr/bin',
       creates => "${conf_dir}/${port}.conf",
-      require => Exec['install redis'],
+      require => [Exec['install redis'], File['conf dir']],
     }
-  } else {
-    file { 'create conf file':
-      name => "${port}.conf",
-      path => "${conf_dir}",
-      ensure => present,
-      require => Exec['install redis'],
-    }
-  }
+  #} else {
+#    file { 'create conf file':
+#      name => "${port}.conf",
+#      path => "${conf_dir}",
+#      ensure => present,
+#      require => Exec['install redis'],
+#    }
+#  }
 
-  if (!empty($conf)) {
-    $conf.each |$key, $value| {
+  $conf_tmp = merge($conf, {port => $port, pidfile => $pidfile, logfile => $logfile, dir => $dir})
+
+  if (!empty($conf_tmp)) {
+    $conf_tmp.each |$key, $value| {
       file_line { "conf_${key}":
         path => "${conf_dir}/${port}.conf",
         line => "${key} ${value}",
         match => "^(${key}\s).*$",
-        require => [File['create conf file'], Exec['copy default conf file']],
+        require => Exec['copy default conf file'],
       }
     }
   }
+
+#/bin/sh\n
+#Configurations injected by puppet....\n\n
+
+EXEC=/usr/local/bin/redis-server\n
+CLIEXEC=/usr/local/bin/redis-cli\n
+PIDFILE=${pidfile}\n
+CONF="/etc/redis/${port}.conf"\n
+REDISPORT="${port}"\n
 
 }
