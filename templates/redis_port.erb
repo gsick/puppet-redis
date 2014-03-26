@@ -29,7 +29,7 @@ case "$1" in
             echo "$PIDFILE exists, process is already running or crashed"
         else
             echo "Starting Redis server..."
-            $EXEC $CONF
+            $EXEC $CONF<% if @sentinel %> --sentinel<% end %>
         fi
         ;;
     stop)
