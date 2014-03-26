@@ -36,15 +36,7 @@ class redis(
     require => Package['gcc'],
   }
 
-  # It's more programmatically, but I don't want a fuck*** template...
-  # More chance to have auto-compatibility with future version
-  # and it's just fun sometimes
+  validate_hash($servers)
 
-  if (!empty($servers)) {
-    validate_hash($servers)
-
-create_resources('redis::instance', $servers)
-
-
-  }
+  create_resources('redis::instance', $servers)
 }

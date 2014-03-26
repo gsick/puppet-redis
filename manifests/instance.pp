@@ -48,10 +48,10 @@ define redis::instance(
 
   # copy redis.conf or sentinel.conf
   exec { "copy default conf file ${servername}":
-    cwd     => "${tmp}/redis-${version}",
-    command => "cp ${default_conf_file} ${conf_dir}/${port}.conf",
+    cwd     => "${redis::tmp}/redis-${redis::version}",
+    command => "cp ${default_conf_file} ${redis::conf_dir}/${port}.conf",
     path    => '/bin:/usr/bin',
-    creates => "${conf_dir}/${port}.conf",
+    creates => "${redis::conf_dir}/${port}.conf",
     require => [Exec['install redis'], File['conf dir']],
   }
 
@@ -72,10 +72,18 @@ define redis::instance(
 
   # override properties
   $conf_tmp.each |$key, $value| {
+
+    $regex = "^(#\\s)?(${key}\\s)\
+(((?!and)(?!192.168.1.100\\s10.0.0.1)\
+(?!is\\sset)\
+[A-Za-z0-9\\._\\-\"/\\s]+)\
+|(<master-password>)|(<masterip>\\s<masterport>)\
+|(<bytes>))$"
+
     file_line { "conf_${servername}_${key}":
-      path    => "${conf_dir}/${port}.conf",
+      path    => "${redis::conf_dir}/${port}.conf",
       line    => "${key} ${value}",
-      match   => "^(#\s)?(${key}\s)((?!and)[A-Za-z0-9\\._\\-\"/\s]+)$",
+      match   => $regex,
       require => Exec["copy default conf file ${servername}"],
       notify  => Service["redis ${servername}"],
     }
