@@ -13,29 +13,29 @@ define redis::instance(
   validate_hash($conf)
 
   # default value if not set
-  $port = (empty($conf)
-          or $conf[port] == '') ? {
-                                    false => $conf[port],
-                                    default => 6379,
-                                  }
+  if (empty($conf) or $conf[port] == '') {
+    $port = 6379
+  } else {
+    $port = $conf[port]
+  }
 
-  $pidfile = (empty($conf)
-              or $conf[pidfile] == '') ? {
-                                           false => $conf[pidfile],
-                                           default => "/var/run/redis_${port}.pid",
-                                         }
+  if (empty($conf) or $conf[pidfile] == '') {
+    $pidfile = "/var/run/redis_${port}.pid"
+  } else {
+    $pidfile = $conf[pidfile]
+  }
 
-  $logfile = (empty($conf)
-              or $conf[logfile] == '') ? {
-                                           false => $conf[logfile],
-                                           default => "/var/log/redis_${port}.log",
-                                         }
+  if (empty($conf) or $conf[logfile] == '') {
+    $logfile = "/var/log/redis_${port}.log"
+  } else {
+    $logfile = $conf[logfile]
+  }
 
-  $dir = (empty($conf)
-          or $conf[dir] == '') ? {
-                                   false => $conf[dir],
-                                   default => "/var/lib/redis/${port}",
-                                 }
+  if (empty($conf) or $conf[dir] == '') {
+    $dir = "/var/lib/redis/${port}"
+  } else {
+    $dir = $conf[dir]
+  }
 
   $conf_tmp = merge($conf, {port => $port, pidfile => $pidfile, logfile => $logfile, dir => $dir})
 
