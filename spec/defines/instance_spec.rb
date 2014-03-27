@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'redis::instance' do
 
   context "with default param" do
+    let(:params) { {:servername => 'redis_6379'} }
 
     it do
       should contain_exec('copy default conf file redis_6379').with({
@@ -62,6 +63,8 @@ describe 'redis::instance' do
   end
 
   context "with default_template param" do
+    let(:params) { {:servername => 'redis_6379'} }
+    let(:params) { {:default_template => false} }
 
     it do
       should_not contain_exec('copy default conf file redis_6379')
