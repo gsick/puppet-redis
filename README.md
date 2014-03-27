@@ -16,10 +16,11 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
         * [Parameters](#parameters)
         * [Available redis properties](#available-redis-properties)
         * [No template](#no-template)
-        * [Add/Uncomment properties](#add/uncomment-properties)
+        * [Add/Uncomment properties](#adduncomment-properties)
         * [Comment properties](#comment-properties)
         * [Multiple Redis instances](#multiple-redis-instances)
     * [Service](#service)
+* [Examples](#examples)
 * [Tests](#tests)
     * [Unit tests](#unit-tests)
     * [Smoke tests](#smoke-tests)
@@ -55,7 +56,7 @@ In your hieradata file
 redis::version: 2.8.7
 ```
 
-It will create `/etc/redis/6379.conf` [see file](http://pastebin.com/xZaKysam).
+It will create `/etc/redis/6379.conf` [see file](http://pastebin.com/xZaKysam).<br />
 The default template configuration comes from redis.conf provided by the original package.<br />
 Only these default values are uncommented/added/changed:
 
@@ -79,9 +80,10 @@ redis::version: 2.8.7
 redis::servers:
     redis_26389:
         sentinel: true
+        sentinel monitor: mymaster 127.0.0.1 6379 2
 ```
 
-It will create `/etc/redis/26389.conf` [see file](http://pastebin.com/4Cje5NsJ).
+It will create `/etc/redis/26389.conf` [see file](http://pastebin.com/4Cje5NsJ).<br />
 The default template configuration comes from sentinel.conf provided by the original package.<br />
 Only these default values are uncommented/added/changed:
 
@@ -91,6 +93,7 @@ pidfile /var/run/redis_26389.pid
 port 26389
 logfile /var/log/redis_26389.log
 dir /var/lib/redis/26389
+sentinel monitor mymaster 127.0.0.1 6379 2
 ```
 
 Read [Available redis properties](#available-redis-properties) for sentinel properties hiera syntax
@@ -99,14 +102,14 @@ Read [Available redis properties](#available-redis-properties) for sentinel prop
 
 #### Parameters
 
-  * `redis::version` : version of Redis (required)
-  * `redis::servers` : hash of instances, default `{ redis_6379 => {} }`
-    * `sentinel`         : boolean, redis sentinel, default `false`
-    * `default_template` : boolean, use default redis template, default `true`
-    * `conf`             : hash of redis properties, default `{ daemonize => 'yes' }`
+  * `redis::version`: version of Redis (required)
+  * `redis::servers`: hash of servers instances, default `{ redis_6379 => {} }`
+    * `sentinel`: boolean, redis sentinel, default `false`
+    * `default_template`: boolean, use default redis template, default `true`
+    * `conf`: hash of redis properties, default `{ daemonize => 'yes' }`
   * `redis::conf_dir`: configuration directory, default `/etc/redis`
   * `redis::data_dir`: data directory, default `/var/lib/redis`
-  * `redis::tmp`     : tmp directory used by install, default `/tmp`
+  * `redis::tmp`: tmp directory used by install, default `/tmp`
 
 #### Available redis properties
 
@@ -234,16 +237,13 @@ redis::servers:
 $ service redis_${port} start/stop/restart
 ```
 
+## Examples
 
+### Redis cache
 
+### Redis sentinel
 
-
-
-
-
-
-
-
+### Redis + Redis sentinel + cache
 
 ## Tests
 
