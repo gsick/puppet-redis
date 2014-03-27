@@ -23,7 +23,6 @@ describe 'redis' do
         'path'  => '/var/lib/redis',
       })
     end
-  end
 
     it do
       should contain_exec('download redis').with({
@@ -55,6 +54,8 @@ describe 'redis' do
         'require' => 'Package[gcc]',
       })
     end
+
+  end
 
 end
 at_exit { RSpec::Puppet::Coverage.report! }
