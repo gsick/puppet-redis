@@ -1,6 +1,6 @@
 name         'gsick-redis'
 version      '0.0.1'
-source       'git://github.com/gsick/puppet-redis.git'
+source       'https://github.com/gsick/puppet-redis.git'
 author       'Gamaliel Sick'
 license      'MIT'
 summary      'Redis installation and configuration module'

@@ -1,0 +1,6 @@
+fixtures:
+  repositories:
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
+    singleton: https://github.com/pdxcat/puppet-module-singleton.git
+  symlinks:
+    redis: "#{source_dir}"
