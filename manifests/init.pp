@@ -3,6 +3,7 @@ class redis(
   $version          = hiera('redis::version'),
   $servers          = hiera('redis::servers', { srv1 => {} }),
   $conf_dir         = hiera('redis::conf_dir', '/etc/redis'),
+  $data_dir         = hiera('redis::data_dir', '/var/lib/redis'),
   $tmp              = hiera('redis::tmp', '/tmp'),
 ) {
 
@@ -10,6 +11,11 @@ class redis(
 
   file { 'conf dir':
     name   => "${conf_dir}",
+    ensure => directory,
+  }
+
+  file { 'data dir':
+    name   => "${data_dir}",
     ensure => directory,
   }
 

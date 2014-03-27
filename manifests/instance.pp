@@ -38,9 +38,15 @@ define redis::instance(
   }
 
   if (empty($conf) or $conf[dir] == '') {
-    $dir = "/var/lib/redis/${port}"
+    $dir = "${redis::data_dir}/${port}"
   } else {
     $dir = $conf[dir]
+  }
+
+  file { "data dir ${servername}":
+    ensure => directory,
+    name   => $dir,
+    require => File['data dir'],
   }
 
   $conf_tmp = merge($conf, {port => $port, pidfile => $pidfile, logfile => $logfile, dir => $dir})
@@ -73,11 +79,6 @@ define redis::instance(
     group   => root,
     mode    => 644,
     require => [Exec['install redis'], File['conf dir']],
-  }
-
-  file { "data dir ${servername}":
-    ensure => directory,
-    name   => $dir,
   }
 
   file { "init file ${servername}":
