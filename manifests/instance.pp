@@ -2,7 +2,7 @@
 # default values come from install_server.sh
 define redis::instance(
   $servername = $name, 
-  $conf = {}, 
+  $conf = { daemonize => 'yes' }, 
   $sentinel = false,
   $default_template = true,
 ) {
