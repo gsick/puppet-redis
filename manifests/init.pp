@@ -10,17 +10,17 @@ class redis(
   singleton_packages('gcc', 'wget')
 
   file { 'conf dir':
-    name   => "${conf_dir}",
     ensure => directory,
+    path   => $conf_dir,
   }
 
   file { 'data dir':
-    name   => "${data_dir}",
     ensure => directory,
+    path   => $data_dir,
   }
 
   exec { 'download redis':
-    cwd     => "${tmp}",
+    cwd     => $tmp,
     command => "/usr/bin/wget http://download.redis.io/releases/redis-${version}.tar.gz",
     creates => "${tmp}/redis-${version}.tar.gz",
     notify  => Exec['untar redis'],
@@ -28,7 +28,7 @@ class redis(
   }
 
   exec { 'untar redis':
-    cwd     => "${tmp}",
+    cwd     => $tmp,
     command => "/bin/tar -zxvf redis-${version}.tar.gz",
     creates => "${tmp}/redis-${version}/Makefile",
     notify  => Exec['install redis'],
