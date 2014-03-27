@@ -1,10 +1,41 @@
-
+# = Class: redis
+#
+# This class installs and configure Redis.
+#
+# == Parameters:
+#
+# $servername:: The name of the server, just for have unique puppet task.
+#
+# $conf::  Hash of properties.
+#
+# $sentinel::  boolean, true if sentinel.
+#
+# $default_template::  boolean, true override redis default conf file.
+#
+# == Requires:
+#
+# Nothing
+#
+# == Sample Usage:
+#
+#   create_resources('redis::instance', $servers)
+#
+# == Authors
+#
+# Gamaliel Sick
+#
+# == Copyright
+#
+# Copyright 2014 Gamaliel Sick, unless otherwise noted.
+#
 # default values come from install_server.sh
 define redis::instance(
   $servername       = $name,
   $conf             = { daemonize => 'yes' },
   $sentinel         = false,
   $default_template = true,
+
+# Add these var for unit test
   $version          = $redis::version,
   $conf_dir         = $redis::conf_dir,
   $data_dir         = $redis::data_dir,

@@ -1,4 +1,37 @@
-
+# = Class: redis
+#
+# This class installs and configure Redis.
+#
+# == Parameters:
+#
+# $version:: The version of Redis to download.
+#
+# $conf_dir::  Configuration directory.
+#
+# $data_dir::  Data directory.
+#
+# $servers::  hash of servers instances.
+#
+# $tmp::  Temp directory.
+#
+# == Requires:
+#
+# Nothing
+#
+# == Sample Usage:
+#
+#   class {'redis':
+#     version => '2.8.7',
+#   }
+#
+# == Authors
+#
+# Gamaliel Sick
+#
+# == Copyright
+#
+# Copyright 2014 Gamaliel Sick, unless otherwise noted.
+#
 class redis(
   $version          = hiera('redis::version'),
   $servers          = hiera('redis::servers', { redis_6379 => {} }),

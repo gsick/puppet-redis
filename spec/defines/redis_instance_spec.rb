@@ -61,7 +61,7 @@ describe 'redis::instance' do
         'ensure'     => 'running',
         'hasrestart' => 'true',
         'hasstatus'  => 'false',
-        'status'     => '/bin/service redis_6379 status | grep --quiet \"Redis is running\"',
+        'status'     => '/bin/service redis_6379 status | grep --quiet "Redis is running"',
         'require'    => ['Exec[install redis]', 'File[data dir redis_6379]'],
       })
     end
