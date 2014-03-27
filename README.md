@@ -61,6 +61,12 @@ logfile /var/log/redis_26389.log
 dir /var/lib/redis/26389
 ```
 
+### Service
+
+```bash
+$ service redis_${port} start/stop/restart
+```
+
 ### Advanced configuration
 
 #### Create conf file from scratch (no template)
@@ -130,7 +136,29 @@ will give:
 ...
 ```
 
+#### Multiple Redis instances
 
+```yaml
+---
+redis::version: 2.8.7
+redis::servers:
+    my_redis_1:
+      conf:
+        port: 9999
+        property_key: property_value
+        ...
+    my_redis_3:
+      conf:
+        port: 8888
+        property_key: property_value
+        ...
+    my_redis_2:
+      sentinel: true
+      conf:
+        port: 29999
+        property_key: property_value
+        ...
+```
 
 
 
