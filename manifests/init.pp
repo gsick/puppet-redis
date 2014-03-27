@@ -21,7 +21,8 @@ class redis(
 
   exec { 'download redis':
     cwd     => $tmp,
-    command => "/usr/bin/wget http://download.redis.io/releases/redis-${version}.tar.gz",
+    path    => '/bin:/usr/bin',
+    command => "wget http://download.redis.io/releases/redis-${version}.tar.gz",
     creates => "${tmp}/redis-${version}.tar.gz",
     notify  => Exec['untar redis'],
     require => Package['wget'],
@@ -29,7 +30,8 @@ class redis(
 
   exec { 'untar redis':
     cwd     => $tmp,
-    command => "/bin/tar -zxvf redis-${version}.tar.gz",
+    path    => '/bin:/usr/bin',
+    command => "tar -zxvf redis-${version}.tar.gz",
     creates => "${tmp}/redis-${version}/Makefile",
     notify  => Exec['install redis'],
   }
