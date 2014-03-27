@@ -1,8 +1,34 @@
 puppet-redis
 ============
 
-Redis installation and configuration module.<br />
+Redis/Redis sentinel multiple instances installation and configuration module.<br />
 [Redis](http://redis.io)<br />
+
+## Table of Contents
+
+* [Status](#status)
+* [Dependencies](#dependencies)
+* [Usage](#usage)
+    * [Default configuration](#default-configuration)
+        * [Redis](#redis)
+        * [Redis sentinel](#redis-sentinel)
+    * [Advanced configuration](#advanced-configuration)
+        * [Parameters](#parameters)
+        * [Available redis properties](#available-redis-properties)
+        * [No template](#no-template)
+        * [Add/Uncomment properties](#add/uncomment-properties)
+        * [Comment properties](#comment-properties)
+        * [Multiple Redis instances](#multiple-redis-instances)
+    * [Service](#service)
+* [Tests](#tests)
+    * [Unit tests](#unit-tests)
+    * [Smoke tests](#smoke-tests)
+* [Authors](#authors)
+* [Licence](#licence)
+
+## Status
+
+0.0.1 released.
 
 ## Dependencies
 
@@ -41,6 +67,8 @@ logfile /var/log/redis_6379.log
 dir /var/lib/redis/6379
 ```
 
+Read [Available redis properties](#available-redis-properties) for some properties hiera syntax
+
 #### Redis sentinel
 
 In your hieradata file
@@ -65,15 +93,51 @@ logfile /var/log/redis_26389.log
 dir /var/lib/redis/26389
 ```
 
-### Service
-
-```bash
-$ service redis_${port} start/stop/restart
-```
+Read [Available redis properties](#available-redis-properties) for sentinel properties hiera syntax
 
 ### Advanced configuration
 
-#### Create conf file from scratch (no template)
+#### Parameters
+
+  * `redis::version` : version of Redis (required)
+  * `redis::servers` : hash of instances, default `{ redis_6379 => {} }`
+    * `sentinel`         : boolean, redis sentinel, default `false`
+    * `default_template` : boolean, use default redis template, default `true`
+    * `conf`             : hash of redis properties, default `{ daemonize => 'yes' }`
+  * `redis::conf_dir`: configuration directory, default `/etc/redis`
+  * `redis::data_dir`: data directory, default `/var/lib/redis`
+  * `redis::tmp`     : tmp directory used by install, default `/tmp`
+
+#### Available redis properties
+
+All properties can be added.<br />
+But due to the regex used, there are some restrictions:<br />
+
+Some properties only work with `default_template = true`:
+  * `rename-command`
+  * `appendfsync`
+
+The key of some others must have two parts:
+  * `client-output-buffer-limit`:
+    * `client-output-buffer-limit normal: 64mb 0 0`
+    * `client-output-buffer-limit slave: 128mb 64mb 60`
+    * `client-output-buffer-limit pubsub: 64mb 8mb 60`
+
+  * `save`:
+    * `save 900: 1`
+    * `save 300: 10`
+    * `save 60: 10000`
+
+  * `sentinel`:
+    * `sentinel monitor: mymaster 127.0.0.1 6379 2`
+    * `sentinel auth-pass: mymaster MySUPER--secret-0123passw0rd`
+    * `sentinel down-after-milliseconds: mymaster 30000`
+    * `sentinel parallel-syncs: mymaster 2`
+    * `sentinel failover-timeout: mymaster 190000`
+    * `sentinel notification-script: mymaster /var/redis/notify.sh`
+    * `sentinel client-reconfig-script: mymaster /var/redis/reconfig.sh`
+
+#### No template
 
 ```yaml
 ---
@@ -164,7 +228,11 @@ redis::servers:
         ...
 ```
 
-#### Available properties
+### Service
+
+```bash
+$ service redis_${port} start/stop/restart
+```
 
 
 
@@ -177,8 +245,20 @@ redis::servers:
 
 
 
+## Tests
 
+### Unit tests
 
+```bash
+$ bundle install
+$ rake test
+```
+
+### Smoke tests
+
+```bash
+$ puppet apply tests/init.pp --noop
+```
 
 ## Authors
 
