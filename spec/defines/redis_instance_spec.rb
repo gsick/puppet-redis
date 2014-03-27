@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe 'redis::instance' do
 
+  let(:title) { 'redis::instance' }
+
   context "with default param" do
     let(:params) { {:servername => 'redis_6379'} }
 
