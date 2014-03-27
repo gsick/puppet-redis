@@ -5,7 +5,11 @@ describe 'redis::instance' do
   let(:title) { 'redis::instance' }
 
   context "with default param" do
-    let(:params) { {:servername => 'redis_6379'} }
+    let(:params) { {:servername => 'redis_6379',
+                    :version    => '2.8.7',
+                    :conf_dir   => '/etc/redis',
+                    :data_dir   => '/var/lib/redis',
+                    :tmp        => '/tmp'} }
 
     it do
       should contain_exec('copy default conf file redis_6379').with({
@@ -65,7 +69,11 @@ describe 'redis::instance' do
   end
 
   context "with default_template param" do
-    let(:params) { {:servername => 'redis_6379'} }
+    let(:params) { {:servername => 'redis_6379',
+                    :version    => '2.8.7',
+                    :conf_dir   => '/etc/redis',
+                    :data_dir   => '/var/lib/redis',
+                    :tmp        => '/tmp'} }
     let(:params) { {:default_template => false} }
 
     it do
