@@ -20,7 +20,6 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
         * [Comment properties](#comment-properties)
         * [Multiple Redis instances](#multiple-redis-instances)
     * [Service](#service)
-* [Examples](#examples)
 * [Tests](#tests)
     * [Unit tests](#unit-tests)
     * [Smoke tests](#smoke-tests)
@@ -236,7 +235,7 @@ redis::servers:
 ```bash
 $ service redis_${port} start/stop/restart
 ```
-
+<!---
 ## Examples
 
 ### Redis cache
@@ -244,6 +243,7 @@ $ service redis_${port} start/stop/restart
 ### Redis sentinel
 
 ### Redis + Redis sentinel + cache
+-->
 
 ## Tests
 
