@@ -1,7 +1,7 @@
 
 class redis(
   $version          = hiera('redis::version'),
-  $servers          = hiera('redis::servers', { srv1 => {} }),
+  $servers          = hiera('redis::servers', { redis_6379 => {} }),
   $conf_dir         = hiera('redis::conf_dir', '/etc/redis'),
   $data_dir         = hiera('redis::data_dir', '/var/lib/redis'),
   $tmp              = hiera('redis::tmp', '/tmp'),
