@@ -31,7 +31,7 @@
 # default values come from install_server.sh
 define redis::instance(
   $servername       = $name,
-  $conf             = { daemonize => 'yes' },
+  $conf             = {},
   $sentinel         = false,
   $default_template = true,
 
@@ -84,7 +84,7 @@ define redis::instance(
     require => File['data dir'],
   }
 
-  $conf_tmp = merge($conf, {port => $port, pidfile => $pidfile, logfile => $logfile, dir => $dir})
+  $conf_tmp = merge({daemonize => 'yes'}, $conf, {port => $port, pidfile => $pidfile, logfile => $logfile, dir => $dir})
 
   if($default_template) {
 
