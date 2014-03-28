@@ -116,21 +116,21 @@ All properties can be added.<br />
 But due to the regex used, there are some restrictions:<br />
 
 Some properties only work with `default_template = true`:
-  * `rename-command`
-  * `appendfsync`
+* `rename-command`
+* `appendfsync`
 
 The key of some others must have two parts:
-  * `client-output-buffer-limit`:
+* `client-output-buffer-limit`
     * `client-output-buffer-limit normal: 64mb 0 0`
     * `client-output-buffer-limit slave: 128mb 64mb 60`
     * `client-output-buffer-limit pubsub: 64mb 8mb 60`
 
-  * `save`:
+* `save`
     * `save 900: 1`
     * `save 300: 10`
     * `save 60: 10000`
 
-  * `sentinel`:
+* `sentinel`
     * `sentinel monitor: mymaster 127.0.0.1 6379 2`
     * `sentinel auth-pass: mymaster MySUPER--secret-0123passw0rd`
     * `sentinel down-after-milliseconds: mymaster 30000`
