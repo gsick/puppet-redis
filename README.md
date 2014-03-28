@@ -101,14 +101,14 @@ Read [Available redis properties](#available-redis-properties) for sentinel prop
 
 #### Parameters
 
-  * `redis::version`: version of Redis (required)
-  * `redis::servers`: hash of servers instances, default `{ redis_6379 => {} }`
+* `redis::version`: version of Redis (required)
+* `redis::servers`: hash of servers instances, default `{ redis_6379 => {} }`
     * `sentinel`: boolean, redis sentinel, default `false`
     * `default_template`: boolean, use default redis template, default `true`
     * `conf`: hash of redis properties, default `{ daemonize => 'yes' }`
-  * `redis::conf_dir`: configuration directory, default `/etc/redis`
-  * `redis::data_dir`: data directory, default `/var/lib/redis`
-  * `redis::tmp`: tmp directory used by install, default `/tmp`
+* `redis::conf_dir`: configuration directory, default `/etc/redis`
+* `redis::data_dir`: data directory, default `/var/lib/redis`
+* `redis::tmp`: tmp directory used by install, default `/tmp`
 
 #### Available redis properties
 
