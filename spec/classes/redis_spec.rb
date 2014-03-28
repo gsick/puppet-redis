@@ -55,6 +55,34 @@ describe 'redis' do
       })
     end
 
+    it do
+      should contain_file_line('sysctl').with({
+        'path'    => '/etc/sysctl.conf',
+        'line'    => 'vm.overcommit_memory = 1',
+        'match'   => '^((vm.overcommit_memory = )[0-1]{1})$',
+      })
+    end
+
+    it do
+      should contain_exec('apply sysctl').with({
+        'cwd'     => '/',
+        'path'    => '/bin:/usr/bin',
+        'command' => 'sysctl vm.overcommit_memory=1',
+      })
+    end
+
+  end
+
+  context "with sysctl param" do
+    let(:params) { {:sysctl => false} }
+
+    it do
+      should_not contain_file_line('sysctl')
+    end
+    it do
+      should_not contain_exec('apply sysctl')
+    end
+
   end
 
 end

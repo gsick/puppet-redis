@@ -12,6 +12,8 @@
 #
 # $servers::  hash of servers instances.
 #
+# $sysctl::  Apply sysctl overcommit conf.
+#
 # $tmp::  Temp directory.
 #
 # == Requires:
@@ -37,6 +39,7 @@ class redis(
   $servers          = hiera('redis::servers', { redis_6379 => {} }),
   $conf_dir         = hiera('redis::conf_dir', '/etc/redis'),
   $data_dir         = hiera('redis::data_dir', '/var/lib/redis'),
+  $sysctl           = hiera('redis::sysctl', true),
   $tmp              = hiera('redis::tmp', '/tmp'),
 ) {
 
@@ -77,7 +80,27 @@ class redis(
     require => Package['gcc'],
   }
 
+  # check servers parameter
   validate_hash($servers)
 
   create_resources('redis::instance', $servers)
+  
+  # check sysctl parameter
+  validate_bool($sysctl)
+
+  if ($sysctl) {
+    # for the next reboot
+    file_line { 'sysctl':
+      path => '/etc/sysctl.conf',
+      line => 'vm.overcommit_memory = 1',
+      match => '^((vm.overcommit_memory = )[0-1]{1})$',
+    }
+
+    # apply now
+    exec { 'apply sysctl':
+      cwd     => '/',
+      path    => '/bin:/usr/bin',
+      command => 'sysctl vm.overcommit_memory=1',
+    }
+  }
 }

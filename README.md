@@ -108,12 +108,15 @@ Read [Available redis properties](#available-redis-properties) for sentinel prop
     * `conf`: hash of redis properties, default `{ daemonize => 'yes' }`
 * `redis::conf_dir`: configuration directory, default `/etc/redis`
 * `redis::data_dir`: data directory, default `/var/lib/redis`
+* `redis::sysctl`: boolean, apply sysctl overcommit conf, default `true`
 * `redis::tmp`: tmp directory used by install, default `/tmp`
 
 #### Available redis properties
 
 All properties can be added.<br />
 But due to the regex used, there are some restrictions:<br />
+
+Don't forget double-quotes `""` for `"yes"` and `"no"` otherwise puppet will understand true or false.
 
 Some properties only work with `default_template = true`:
 * `rename-command`
