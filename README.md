@@ -32,7 +32,7 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
 
 ## Status
 
-0.0.1 released.
+0.0.2 released.
 
 ## Dependencies
 
