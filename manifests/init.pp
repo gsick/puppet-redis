@@ -99,7 +99,7 @@ class redis(
     # apply now
     exec { 'apply sysctl':
       cwd     => '/',
-      path    => '/bin:/usr/bin',
+      path    => '/sbin:/bin:/usr/bin',
       command => 'sysctl vm.overcommit_memory=1',
     }
   }
