@@ -20,6 +20,10 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
         * [Comment properties](#comment-properties)
         * [Multiple Redis instances](#multiple-redis-instances)
     * [Service](#service)
+* [Examples](#examples)
+    * [Redis LRU cache](#redis-lru-cache)
+    * [Redis sentinel](#redis-sentinel)
+    * [Redis + Redis sentinel + LRU cache](#redis--redis-sentinel--lru-cache)
 * [Tests](#tests)
     * [Unit tests](#unit-tests)
     * [Smoke tests](#smoke-tests)
@@ -238,15 +242,68 @@ redis::servers:
 ```bash
 $ service redis_${port} start/stop/restart
 ```
-<!---
+
 ## Examples
 
-### Redis cache
+### Redis LRU cache
+
+```yaml
+---
+redis::version: 2.8.7
+redis::servers:
+    redis_LRU_cache:
+        conf:
+          bind: 127.0.0.1
+          "#save 900": 1
+          "#save 300": 10
+          "#save 60": 10000
+          maxmemory: 100mb
+          maxmemory-policy: volatile-lru
+          maxmemory-samples: 5
+```
 
 ### Redis sentinel
 
-### Redis + Redis sentinel + cache
--->
+```yaml
+---
+redis::version: 2.8.7
+redis::servers:
+    redis_sentinel:
+        sentinel: true
+        conf:
+          sentinel monitor: thor 192.168.0.12 6379 2
+          sentinel down-after-milliseconds: thor 30000
+          sentinel parallel-syncs: thor 1
+          sentinel failover-timeout: thor 180000
+```
+
+### Redis + Redis sentinel + LRU cache
+
+```yaml
+---
+redis::version: 2.8.7
+redis::servers:
+    redis_master:
+        conf:
+          port: 6379
+    redis_sentinel:
+        sentinel: true
+        conf:
+          sentinel monitor: thor 127.0.0.1 6379 2
+          sentinel down-after-milliseconds: thor 30000
+          sentinel parallel-syncs: thor 1
+          sentinel failover-timeout: thor 180000
+    redis_LRU_cache:
+        conf:
+          port: 7979
+          bind: 127.0.0.1
+          "#save 900": 1
+          "#save 300": 10
+          "#save 60": 10000
+          maxmemory: 100mb
+          maxmemory-policy: volatile-lru
+          maxmemory-samples: 5
+```
 
 ## Tests
 
