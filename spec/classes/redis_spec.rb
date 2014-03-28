@@ -66,7 +66,7 @@ describe 'redis' do
     it do
       should contain_exec('apply sysctl').with({
         'cwd'     => '/',
-        'path'    => '/bin:/usr/bin',
+        'path'    => '/sbin:/bin:/usr/bin',
         'command' => 'sysctl vm.overcommit_memory=1',
       })
     end
