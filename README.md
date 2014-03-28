@@ -22,7 +22,7 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
     * [Service](#service)
 * [Examples](#examples)
     * [Redis LRU cache](#redis-lru-cache)
-    * [Redis sentinel](#redis-sentinel)
+    * [Redis sentinel](#redis-sentinel-1)
     * [Redis + Redis sentinel + LRU cache](#redis--redis-sentinel--lru-cache)
 * [Tests](#tests)
     * [Unit tests](#unit-tests)
