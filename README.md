@@ -83,7 +83,11 @@ redis::version: 2.8.7
 redis::servers:
     redis_26389:
         sentinel: true
-        sentinel monitor: mymaster 127.0.0.1 6379 2
+        conf:
+          sentinel monitor: mymaster 127.0.0.1 6379 2
+          sentinel down-after-milliseconds: mymaster 30000
+          sentinel parallel-syncs: mymaster 1
+          sentinel failover-timeout: mymaster 180000
 ```
 
 It will create `/etc/redis/26389.conf` [see file](http://pastebin.com/4Cje5NsJ).<br />
