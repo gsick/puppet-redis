@@ -13,6 +13,14 @@ describe 'redis::instance' do
                     :tmp        => '/tmp'} }
 
     it do
+      should contain_file('data dir redis_6379').with({
+        'ensure'  => 'directory',
+        'path'    => '/var/lib/redis/6379',
+        'require' => 'File[data dir]',
+      })
+    end
+
+    it do
       should contain_exec('copy default conf file redis_6379').with({
         'cwd'     => '/tmp/redis-2.8.7',
         'path'    => '/bin:/usr/bin',

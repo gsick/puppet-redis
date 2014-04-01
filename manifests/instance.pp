@@ -80,7 +80,7 @@ define redis::instance(
 
   file { "data dir ${servername}":
     ensure  => directory,
-    name    => $dir,
+    path    => $dir,
     require => File['data dir'],
   }
 
