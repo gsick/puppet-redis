@@ -91,8 +91,8 @@ class redis(
   if ($sysctl) {
     # for the next reboot
     file_line { 'sysctl':
-      path => '/etc/sysctl.conf',
-      line => 'vm.overcommit_memory = 1',
+      path  => '/etc/sysctl.conf',
+      line  => 'vm.overcommit_memory = 1',
       match => '^((vm.overcommit_memory = )[0-1]{1})$',
     }
 

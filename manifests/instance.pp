@@ -79,8 +79,8 @@ define redis::instance(
   }
 
   file { "data dir ${servername}":
-    ensure => directory,
-    name   => $dir,
+    ensure  => directory,
+    name    => $dir,
     require => File['data dir'],
   }
 
@@ -112,7 +112,7 @@ define redis::instance(
     path    => "${conf_dir}/${port}.conf",
     owner   => root,
     group   => root,
-    mode    => 644,
+    mode    => '0644',
     require => [Exec['install redis'], File['conf dir']],
   }
 
@@ -121,7 +121,7 @@ define redis::instance(
     name    => "/etc/init.d/redis_${port}",
     owner   => root,
     group   => root,
-    mode    => 755,
+    mode    => '0755',
     content => template("${module_name}/redis_port.erb"),
     notify  => Service["redis ${servername}"],
   }
@@ -149,7 +149,8 @@ define redis::instance(
 
     file_line { "conf_${servername}_${final_key}":
       path    => "${conf_dir}/${port}.conf",
-      line    => $size ? { 2 => "# ${final_key} ${value}", default => "${final_key} ${value}" },
+      line    => $size ? { 2       => "# ${final_key} ${value}", 
+                           default => "${final_key} ${value}" },
       match   => $regex,
       require => File["conf file ${servername}"],
       notify  => Service["redis ${servername}"],
@@ -168,9 +169,9 @@ define redis::instance(
   }
 
   service { "redis ${servername}":
+    ensure     => running,
     name       => "redis_${port}",
     enable     => true,
-    ensure     => running,
     hasrestart => true,
     hasstatus  => false,
     status     => "/bin/service redis_${port} status | grep --quiet \"Redis is running\"",
