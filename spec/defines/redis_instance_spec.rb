@@ -29,7 +29,7 @@ describe 'redis::instance' do
         'path'    => '/etc/redis/6379.conf',
         'owner'   => 'root',
         'group'   => 'root',
-        'mode'    => '644',
+        'mode'    => '0644',
         'require' => ['Exec[install redis]', 'File[conf dir]'],
       })
     end
@@ -40,7 +40,7 @@ describe 'redis::instance' do
         'path'    => '/etc/init.d/redis_6379',
         'owner'   => 'root',
         'group'   => 'root',
-        'mode'    => '755',
+        'mode'    => '0755',
         'notify'  => 'Service[redis redis_6379]',
       })
     end

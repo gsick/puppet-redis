@@ -138,7 +138,7 @@ define redis::instance(
       $line = "# ${final_key} ${value}"
     } else {
       $final_key = $key_arr[0]
-      $line = "${final_key} ${value}""
+      $line = "${final_key} ${value}"
     }
 
     # magic regex
