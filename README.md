@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/gsick/puppet-redis.svg?branch=0.0.3)](https://travis-ci.org/gsick/puppet-redis)
+[![Coverage Status](https://coveralls.io/repos/gsick/puppet-redis/badge.png?branch=0.0.3)](https://coveralls.io/r/gsick/puppet-redis?branch=0.0.3)
+(95% with rspec-puppet)
+
 puppet-redis
 ============
 
@@ -24,15 +28,19 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
     * [Redis LRU cache](#redis-lru-cache)
     * [Redis sentinel](#redis-sentinel-1)
     * [Redis + Redis sentinel + LRU cache](#redis--redis-sentinel--lru-cache)
+* [Installation](#installation)
+    * [puppet](#puppet)
+    * [librarian-puppet](#librarian-puppet)
 * [Tests](#tests)
     * [Unit tests](#unit-tests)
     * [Smoke tests](#smoke-tests)
 * [Authors](#authors)
+* [Contributing](#contributing)
 * [Licence](#licence)
 
 ## Status
 
-0.0.2 released.
+0.0.3 released.
 
 ## Dependencies
 
@@ -309,6 +317,28 @@ redis::servers:
           maxmemory-samples: 5
 ```
 
+## Installation
+
+### puppet
+
+```bash
+$ puppet module install gsick/redis
+```
+
+### librarian-puppet
+
+Add in your Puppetfile
+
+```text
+mod 'gsick/redis'
+```
+
+and run
+
+```bash
+$ librarian-puppet update
+```
+
 ## Tests
 
 ### Unit tests
@@ -327,6 +357,14 @@ $ puppet apply tests/init.pp --noop
 ## Authors
 
 Gamaliel Sick
+
+## Contributing
+
+  * Fork it
+  * Create your feature branch `git checkout -b my-new-feature`
+  * Commit your changes `git commit -am 'Add some feature'`
+  * Push to the branch `git push origin my-new-feature`
+  * Create new Pull Request
 
 ## Licence
 
