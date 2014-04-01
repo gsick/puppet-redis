@@ -135,8 +135,10 @@ define redis::instance(
     $size = size($key_arr)
     if($size == 2) {
       $final_key = $key_arr[1]
+      $line = "# ${final_key} ${value}"
     } else {
       $final_key = $key_arr[0]
+      $line = "${final_key} ${value}""
     }
 
     # magic regex
@@ -149,8 +151,7 @@ define redis::instance(
 
     file_line { "conf_${servername}_${final_key}":
       path    => "${conf_dir}/${port}.conf",
-      line    => $size ? { 2       => "# ${final_key} ${value}", 
-                           default => "${final_key} ${value}" },
+      line    => $line,
       match   => $regex,
       require => File["conf file ${servername}"],
       notify  => Service["redis ${servername}"],
