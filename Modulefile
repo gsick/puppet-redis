@@ -1,5 +1,5 @@
 name         'gsick-redis'
-version      '0.0.2'
+version      '0.0.3'
 source       'https://github.com/gsick/puppet-redis.git'
 author       'Gamaliel Sick'
 license      'MIT'

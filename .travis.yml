@@ -1,19 +1,13 @@
 language: ruby
 rvm:
   - 1.9.3
-before_script:
-  - cd ..
-  - git clone https://github.com/rodjek/rspec-puppet.git
-  - cd rspec-puppet
-  - gem build rspec-puppet.gemspec
-  - gem install rspec-puppet-*.gem
-  - cd ../puppet-btsync
+install: ./fix_future_test.sh
 script: "rake test"
 env:
   - PUPPET_VERSION=3.4.3
 branches:
   only:
-    - 0.0.2
+    - 0.0.3
     - master
 notifications:
   email: false
