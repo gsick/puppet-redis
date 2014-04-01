@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'redis::instance' do
 
   let(:title) { 'redis::instance' }
+  let(:parser) { 'future' }
 
   context "with default param" do
     let(:params) { {:servername => 'redis_6379',
@@ -87,4 +88,3 @@ describe 'redis::instance' do
   end
 
 end
-at_exit { RSpec::Puppet::Coverage.report! }

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'redis' do
 
   let(:hiera_config) { 'spec/fixtures/hiera/hiera.yaml' }
+  let(:parser) { 'future' }
 
   it { should contain_class('singleton') }
   it { should contain_package('singleton_package_wget') }
@@ -86,4 +87,3 @@ describe 'redis' do
   end
 
 end
-at_exit { RSpec::Puppet::Coverage.report! }

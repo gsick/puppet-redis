@@ -8,7 +8,10 @@ exclude_paths = [
   "spec/**/*",
 ]
 PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_variable_scope')
+PuppetLint.configuration.send('disable_autoloader_layout')
 PuppetLint.configuration.ignore_paths = exclude_paths
+PuppetSyntax.future_parser = true
 PuppetSyntax.exclude_paths = exclude_paths
 
 desc "Run syntax, lint, and spec tests."
