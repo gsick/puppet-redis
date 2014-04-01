@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'redis::instance' do
 
-  let(:title) { 'redis::instance' }
+  let(:title) { 'redis_6379' }
   let(:parser) { 'future' }
 
   context "with default param" do
