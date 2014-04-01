@@ -1,7 +1,6 @@
 #!/bin/sh
 set -ev
 
-cd ..
 git clone https://github.com/rodjek/rspec-puppet.git
 cd rspec-puppet
 git pull https://github.com/daenney/rspec-puppet.git future-parser
@@ -14,4 +13,4 @@ cd puppet-lint
 gem build puppet-lint.gemspec
 gem install puppet-lint-*.gem
 
-cd ../puppet-jetty
+cd ..
