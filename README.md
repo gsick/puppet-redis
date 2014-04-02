@@ -322,7 +322,7 @@ redis::servers:
 ### puppet
 
 ```bash
-$ puppet module install gsick/redis
+$ puppet module install gsick-redis
 ```
 
 ### librarian-puppet
