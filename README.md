@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/gsick/puppet-redis.svg?branch=master)](https://travis-ci.org/gsick/puppet-redis)
-[![Coverage Status](https://coveralls.io/repos/gsick/puppet-redis/badge.png?branch=master)](https://coveralls.io/r/gsick/puppet-redis?branch=master)
+[![Build Status](https://travis-ci.org/gsick/puppet-redis.svg?branch=0.0.4)](https://travis-ci.org/gsick/puppet-redis)
+[![Coverage Status](https://coveralls.io/repos/gsick/puppet-redis/badge.png?branch=0.0.4)](https://coveralls.io/r/gsick/puppet-redis?branch=0.0.4)
 (95% with rspec-puppet)
 
 puppet-redis
@@ -40,7 +40,7 @@ Redis/Redis sentinel multiple instances installation and configuration module.<b
 
 ## Status
 
-0.0.3 released.
+0.0.4 released.
 
 ## Dependencies
 
