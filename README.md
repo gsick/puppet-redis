@@ -109,6 +109,9 @@ port 26389
 logfile /var/log/redis_26389.log
 dir /var/lib/redis/26389
 sentinel monitor mymaster 127.0.0.1 6379 2
+sentinel down-after-milliseconds: mymaster 30000
+sentinel parallel-syncs: mymaster 1
+sentinel failover-timeout: mymaster 180000
 ```
 
 Read [Available redis properties](#available-redis-properties) for sentinel properties hiera syntax
