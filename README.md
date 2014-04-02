@@ -343,7 +343,10 @@ $ librarian-puppet update
 
 ### Unit tests
 
+`fix_future_test.sh` will be remove after the next release of puppet-lint and rspec-puppet.
+
 ```bash
+$ ./fix_future_test.sh
 $ bundle install
 $ rake test
 ```
