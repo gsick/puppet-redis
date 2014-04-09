@@ -29,8 +29,8 @@ describe 'redis' do
       should contain_exec('download redis').with({
         'cwd'     => '/tmp',
         'path'    => '/bin:/usr/bin',
-        'command' => 'wget http://download.redis.io/releases/redis-2.8.7.tar.gz',
-        'creates' => '/tmp/redis-2.8.7.tar.gz',
+        'command' => 'wget http://download.redis.io/releases/redis-2.8.8.tar.gz',
+        'creates' => '/tmp/redis-2.8.8.tar.gz',
         'notify'  => 'Exec[untar redis]',
         'require' => 'Package[wget]',
       })
@@ -40,15 +40,15 @@ describe 'redis' do
       should contain_exec('untar redis').with({
         'cwd'     => '/tmp',
         'path'    => '/bin:/usr/bin',
-        'command' => 'tar -zxvf redis-2.8.7.tar.gz',
-        'creates' => '/tmp/redis-2.8.7/Makefile',
+        'command' => 'tar -zxvf redis-2.8.8.tar.gz',
+        'creates' => '/tmp/redis-2.8.8/Makefile',
         'notify'  => 'Exec[install redis]',
       })
     end
 
     it do
       should contain_exec('install redis').with({
-        'cwd'     => '/tmp/redis-2.8.7',
+        'cwd'     => '/tmp/redis-2.8.8',
         'path'    => '/bin:/usr/bin',
         'command' => 'make && make install',
         'creates' => '/usr/local/bin/redis-server',

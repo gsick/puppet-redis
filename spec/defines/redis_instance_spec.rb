@@ -7,7 +7,7 @@ describe 'redis::instance' do
 
   context "with default param" do
     let(:params) { {:servername => 'redis_6379',
-                    :version    => '2.8.7',
+                    :version    => '2.8.8',
                     :conf_dir   => '/etc/redis',
                     :data_dir   => '/var/lib/redis',
                     :tmp        => '/tmp'} }
@@ -22,7 +22,7 @@ describe 'redis::instance' do
 
     it do
       should contain_exec('copy default conf file redis_6379').with({
-        'cwd'     => '/tmp/redis-2.8.7',
+        'cwd'     => '/tmp/redis-2.8.8',
         'path'    => '/bin:/usr/bin',
         'command' => 'cp redis.conf /etc/redis/6379.conf',
         'creates' => '/etc/redis/6379.conf',
@@ -129,7 +129,7 @@ describe 'redis::instance' do
 
   context "with default_template param" do
     let(:params) { {:servername => 'redis_6379',
-                    :version    => '2.8.7',
+                    :version    => '2.8.8',
                     :conf_dir   => '/etc/redis',
                     :data_dir   => '/var/lib/redis',
                     :tmp        => '/tmp'} }

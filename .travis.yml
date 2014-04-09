@@ -8,6 +8,7 @@ env:
 branches:
   only:
     - 0.0.4
+    - 0.0.5
     - master
 notifications:
   email: false
