@@ -1,4 +1,4 @@
-# = Class: redis
+# = Class: redis::instance
 #
 # This class installs and configure Redis.
 #
@@ -54,25 +54,25 @@ define redis::instance(
   validate_bool($default_template)
 
   # default value if not set
-  if (empty($conf) or $conf[port] == '') {
+  if (empty($conf) or empty($conf[port])) {
     $port = $sentinel ? { default => 6379, true => 26389 }
   } else {
     $port = $conf[port]
   }
 
-  if (empty($conf) or $conf[pidfile] == '') {
+  if (empty($conf) or empty($conf[pidfile])) {
     $pidfile = "/var/run/redis_${port}.pid"
   } else {
     $pidfile = $conf[pidfile]
   }
 
-  if (empty($conf) or $conf[logfile] == '') {
+  if (empty($conf) or empty($conf[logfile])) {
     $logfile = "/var/log/redis_${port}.log"
   } else {
     $logfile = $conf[logfile]
   }
 
-  if (empty($conf) or $conf[dir] == '') {
+  if (empty($conf) or empty($conf[dir])) {
     $dir = "${data_dir}/${port}"
   } else {
     $dir = $conf[dir]
