@@ -35,12 +35,12 @@
 # Copyright 2014 Gamaliel Sick, unless otherwise noted.
 #
 class redis(
-  $version          = hiera('redis::version'),
-  $servers          = hiera('redis::servers', { redis_6379 => {} }),
-  $conf_dir         = hiera('redis::conf_dir', '/etc/redis'),
-  $data_dir         = hiera('redis::data_dir', '/var/lib/redis'),
-  $sysctl           = hiera('redis::sysctl', true),
-  $tmp              = hiera('redis::tmp', '/tmp'),
+  $version,
+  $servers          = { redis_6379 => {} },
+  $conf_dir         = '/etc/redis',
+  $data_dir         = '/var/lib/redis',
+  $sysctl           = true,
+  $tmp              = '/tmp',
 ) {
 
   validate_string($version)
