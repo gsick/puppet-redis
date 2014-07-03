@@ -7,5 +7,4 @@ summary      'Redis installation and configuration module'
 description  'Puppet module for installing and configuring Redis'
 project_page 'https://github.com/gsick/puppet-redis'
 
-dependency   'puppetlabs/stdlib', '>= 4.1.0'
-dependency   'pdxcat/singleton', '>= 0.0.5'
+dependency   'puppetlabs/stdlib', '>= 4.2.2'

@@ -23,7 +23,7 @@
 # == Sample Usage:
 #
 #   class {'redis':
-#     version => '2.8.7',
+#     version => '2.8.12',
 #   }
 #
 # == Authors
@@ -43,7 +43,14 @@ class redis(
   $tmp              = hiera('redis::tmp', '/tmp'),
 ) {
 
-  singleton_packages('gcc', 'wget')
+  validate_string($version)
+  validate_hash($servers)
+  validate_absolute_path($conf_dir)
+  validate_absolute_path($data_dir)
+  validate_bool($sysctl)
+  validate_absolute_path($tmp)
+
+  ensure_packages(['gcc', 'wget'])
 
   file { 'conf dir':
     ensure => directory,
@@ -80,13 +87,7 @@ class redis(
     require => Package['gcc'],
   }
 
-  # check servers parameter
-  validate_hash($servers)
-
   create_resources('redis::instance', $servers)
-  
-  # check sysctl parameter
-  validate_bool($sysctl)
 
   if ($sysctl) {
     # for the next reboot

@@ -64,7 +64,7 @@ In your hieradata file
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 ```
 
 It will create `/etc/redis/6379.conf` [see file](http://pastebin.com/xZaKysam).<br />
@@ -87,7 +87,7 @@ In your hieradata file
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     redis_26389:
         sentinel: true
@@ -165,7 +165,7 @@ The key of some others must have two parts:
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     my_redis_1:
       default_template: false
@@ -191,7 +191,7 @@ property_key property_value
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     redis_7979:
         conf:
@@ -206,7 +206,7 @@ redis::servers:
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     my_redis_1:
       default_template: false
@@ -232,7 +232,7 @@ will give:
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     my_redis_1:
       conf:
@@ -264,7 +264,7 @@ $ service redis_${port} start/stop/restart
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     redis_LRU_cache:
         conf:
@@ -281,7 +281,7 @@ redis::servers:
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     redis_sentinel:
         sentinel: true
@@ -296,7 +296,7 @@ redis::servers:
 
 ```yaml
 ---
-redis::version: 2.8.8
+redis::version: 2.8.12
 redis::servers:
     redis_master:
         conf:

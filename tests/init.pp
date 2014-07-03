@@ -1,4 +1,4 @@
 #
 # Smoke test.
 #
-class {'redis': version => '2.8.8'}
+class {'redis': version => '2.8.12'}
