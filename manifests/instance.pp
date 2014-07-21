@@ -54,7 +54,7 @@ define redis::instance(
   validate_bool($default_template)
 
   # default value if not set
-  if (empty($conf) or empty($conf[port])) {
+  if (empty($conf) or not is_integer($conf[port])) {
     $port = $sentinel ? { default => 6379, true => 26389 }
   } else {
     $port = $conf[port]
