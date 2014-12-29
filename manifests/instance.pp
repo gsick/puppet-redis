@@ -69,7 +69,11 @@ define redis::instance(
   }
 
   if (empty($conf) or empty($conf[logfile])) {
-    $logfile = "/var/log/redis_${port}.log"
+    file { "log dir ${servername}":
+      ensure  => directory,
+      path    => '/var/log/redis',
+    }
+    $logfile = "/var/log/redis/redis_${port}.log"
   } else {
     $logfile = $conf[logfile]
   }
