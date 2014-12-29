@@ -6,6 +6,7 @@ CLIEXEC=/usr/local/bin/redis-cli
 PIDFILE=<%= @pidfile %>
 CONF="/etc/redis/<%= @port %>.conf"
 REDISPORT="<%= @port %>"
+USER="<%= @user %>"
 ###############
 # SysV Init Information
 # chkconfig: - 58 74
@@ -22,6 +23,9 @@ REDISPORT="<%= @port %>"
 # Description: Redis daemon
 ### END INIT INFO
 
+# Get function from functions library
+. /etc/init.d/functions
+
 case "$1" in
     start)
         if [ -f $PIDFILE ]
@@ -29,7 +33,11 @@ case "$1" in
             echo "$PIDFILE exists, process is already running or crashed"
         else
             echo "Starting Redis server..."
-            $EXEC $CONF<% if @sentinel %> --sentinel<% end %>
+#            $EXEC $CONF<% if @sentinel %> --sentinel<% end %>
+            daemon --pidfile=$PIDFILE --user=$USER $"$EXEC $CONF<% if @sentinel %> --sentinel<% end %> &"
+            RETVAL=$?
+            echo
+            return $RETVAL
         fi
         ;;
     stop)

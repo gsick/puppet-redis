@@ -32,6 +32,8 @@
 define redis::instance(
   $servername       = $name,
   $conf             = {},
+  $user             = 'redis',
+  $group            = 'redis',
   $sentinel         = false,
   $default_template = true,
 

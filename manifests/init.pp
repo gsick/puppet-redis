@@ -36,6 +36,10 @@
 #
 class redis(
   $version,
+  $user             = 'redis',
+  $group            = 'redis',
+  $user_uid         = undef,
+  $group_gid        = undef,
   $servers          = { redis_6379 => {} },
   $conf_dir         = '/etc/redis',
   $data_dir         = '/var/lib/redis',
@@ -44,6 +48,8 @@ class redis(
 ) {
 
   validate_string($version)
+  validate_string($user)
+  validate_string($group)
   validate_hash($servers)
   validate_absolute_path($conf_dir)
   validate_absolute_path($data_dir)
@@ -51,6 +57,42 @@ class redis(
   validate_absolute_path($tmp)
 
   ensure_packages(['gcc', 'wget'])
+
+  if($group_gid) {
+    group { 'redis group':
+      ensure => 'present',
+      name   => $group,
+      gid    => $group_gid,
+    }
+  } else {
+    group { 'redis group':
+      ensure => 'present',
+      name   => $group,
+    }
+  }
+
+  if($user_uid) {
+    user { 'redis user':
+      ensure  => 'present',
+      name    => $user,
+      uid     => $user_uid,
+      groups  => $group,
+      comment => 'redis db user',
+      shell   => '/sbin/nologin',
+      system  => true,
+      require => Group['redis group'],
+    }
+  } else {
+    user { 'redis user':
+      ensure  => 'present',
+      name    => $user,
+      groups  => $group,
+      comment => 'redis db user',
+      shell   => '/sbin/nologin',
+      system  => true,
+      require => Group['redis group'],
+    }
+  }
 
   file { 'conf dir':
     ensure => directory,
@@ -87,7 +129,12 @@ class redis(
     require => Package['gcc'],
   }
 
-  create_resources('redis::instance', $servers)
+  $defaults = {
+    'user'  => $user,
+    'group' => $group,
+  }
+
+  create_resources('redis::instance', $servers, $defaults)
 
   if ($sysctl) {
     # for the next reboot
