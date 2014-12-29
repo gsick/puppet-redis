@@ -91,26 +91,26 @@ class redis(
 
   if ($sysctl) {
     # for the next reboot
-    file_line { 'sysctl':
+    file_line { 'sysctl vm.overcommit_memory':
       path  => '/etc/sysctl.conf',
       line  => 'vm.overcommit_memory = 1',
       match => '^((vm.overcommit_memory = )[0-1]{1})$',
     }
     ->
-    file_line { 'sysctl':
+    file_line { 'sysctl net.core.somaxconn':
       path  => '/etc/sysctl.conf',
       line  => 'net.core.somaxconn = 1024',
       match => '^((net.core.somaxconn = )[0-1]{1})$',
     }
 
     # apply now
-    exec { 'apply sysctl':
+    exec { 'apply sysctl vm.overcommit_memory':
       cwd     => '/',
       path    => '/sbin:/bin:/usr/bin',
       command => 'sysctl vm.overcommit_memory=1',
     }
     ->
-    exec { 'apply sysctl':
+    exec { 'apply sysctl net.core.somaxconn=1024':
       cwd     => '/',
       path    => '/sbin:/bin:/usr/bin',
       command => 'sysctl -w net.core.somaxconn=1024',
