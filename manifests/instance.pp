@@ -72,6 +72,9 @@ define redis::instance(
     file { "log dir ${servername}":
       ensure  => directory,
       path    => '/var/log/redis',
+      owner   => $user,
+      group   => $group,
+      require => User['redis user'],
     }
     $logfile = "/var/log/redis/redis_${port}.log"
   } else {
