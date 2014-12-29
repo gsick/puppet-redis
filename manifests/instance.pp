@@ -32,8 +32,8 @@
 define redis::instance(
   $servername       = $name,
   $conf             = {},
-  $user             = 'redis',
-  $group            = 'redis',
+  $user             = $redis::user,
+  $group            = $redis::group,
   $sentinel         = false,
   $default_template = true,
 
@@ -89,6 +89,13 @@ define redis::instance(
   }
 
   if (empty($conf) or empty($conf[dir])) {
+    file { "data dir ${servername}":
+      ensure  => directory,
+      path    => "${data_dir}/${port}",
+      owner   => $user,
+      group   => $group,
+      require => File['data dir'],
+    }
     $dir = "${data_dir}/${port}"
   } else {
     $dir = $conf[dir]

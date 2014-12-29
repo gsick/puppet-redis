@@ -101,8 +101,11 @@ class redis(
   }
 
   file { 'data dir':
-    ensure => directory,
-    path   => $data_dir,
+    ensure  => directory,
+    path    => $data_dir,
+    owner   => $user,
+    group   => $group,
+    require => User['redis user'],
   }
 
   exec { 'download redis':
@@ -143,7 +146,7 @@ class redis(
       name    => '/etc/security/limits.d/redis.conf',
       owner   => root,
       group   => root,
-      mode    => '0755',
+      mode    => '0644',
       content => template("${module_name}/limits_redis.conf.erb"),
     }
   }
