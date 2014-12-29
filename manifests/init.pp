@@ -96,12 +96,30 @@ class redis(
       line  => 'vm.overcommit_memory = 1',
       match => '^((vm.overcommit_memory = )[0-1]{1})$',
     }
+    ->
+    file_line { 'sysctl':
+      path  => '/etc/sysctl.conf',
+      line  => 'net.core.somaxconn = 1024',
+      match => '^((net.core.somaxconn = )[0-1]{1})$',
+    }
 
     # apply now
     exec { 'apply sysctl':
       cwd     => '/',
       path    => '/sbin:/bin:/usr/bin',
       command => 'sysctl vm.overcommit_memory=1',
+    }
+    ->
+    exec { 'apply sysctl':
+      cwd     => '/',
+      path    => '/sbin:/bin:/usr/bin',
+      command => 'sysctl -w net.core.somaxconn=1024',
+    }
+    ->
+    exec { 'disabled transparent hugepage':
+      cwd     => '/',
+      path    => '/sbin:/bin:/usr/bin',
+      command => 'echo never > /sys/kernel/mm/transparent_hugepage/enabled',
     }
   }
 }
