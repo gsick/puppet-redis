@@ -63,7 +63,14 @@ define redis::instance(
   }
 
   if (empty($conf) or empty($conf[pidfile])) {
-    $pidfile = "/var/run/redis_${port}.pid"
+    file { "log dir ${servername}":
+      ensure  => directory,
+      path    => '/var/run/redis',
+      owner   => $user,
+      group   => $group,
+      require => User['redis user'],
+    }
+    $pidfile = "/var/run/redis/redis_${port}.pid"
   } else {
     $pidfile = $conf[pidfile]
   }

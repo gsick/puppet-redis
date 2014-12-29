@@ -168,5 +168,11 @@ class redis(
       path    => '/sbin:/bin:/usr/bin',
       command => 'echo never > /sys/kernel/mm/transparent_hugepage/enabled',
     }
+    ->
+    exec { 'ulimit':
+      cwd     => '/',
+      path    => '/sbin:/bin:/usr/bin',
+      command => 'ulimit -n 10032',
+    }
   }
 }
