@@ -28,6 +28,10 @@ USER="<%= @user %>"
 
 case "$1" in
     start)
+        if [ ! -d "/var/run/redis" ]; then
+          mkdir -p /var/run/redis
+          chown $USER.$USER /var/run/redis
+        fi
         if [ -f $PIDFILE ]
         then
             echo "$PIDFILE exists, process is already running or crashed"

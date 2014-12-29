@@ -44,6 +44,7 @@ class redis(
   $conf_dir         = '/etc/redis',
   $data_dir         = '/var/lib/redis',
   $sysctl           = true,
+  $limits           = true,
   $tmp              = '/tmp',
 ) {
 
@@ -136,6 +137,17 @@ class redis(
 
   create_resources('redis::instance', $servers, $defaults)
 
+  if ($limits) {
+    file { 'limits file':
+      ensure  => file,
+      name    => '/etc/security/limits.d/redis.conf',
+      owner   => root,
+      group   => root,
+      mode    => '0755',
+      content => template("${module_name}/limits_redis.conf.erb"),
+    }
+  }
+
   if ($sysctl) {
     # for the next reboot
     file_line { 'sysctl vm.overcommit_memory':
@@ -167,12 +179,6 @@ class redis(
       cwd     => '/',
       path    => '/sbin:/bin:/usr/bin',
       command => 'echo never > /sys/kernel/mm/transparent_hugepage/enabled',
-    }
-    ->
-    exec { 'ulimit':
-      cwd     => '/',
-      path    => '/sbin:/bin:/usr/bin',
-      command => 'ulimit -n 10032',
     }
   }
 }
