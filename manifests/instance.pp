@@ -89,13 +89,6 @@ define redis::instance(
   }
 
   if (empty($conf) or empty($conf[dir])) {
-    file { "data dir ${servername}":
-      ensure  => directory,
-      path    => "${data_dir}/${port}",
-      owner   => $user,
-      group   => $group,
-      require => File['data dir'],
-    }
     $dir = "${data_dir}/${port}"
   } else {
     $dir = $conf[dir]
@@ -104,6 +97,8 @@ define redis::instance(
   file { "data dir ${servername}":
     ensure  => directory,
     path    => $dir,
+    owner   => $user,
+    group   => $group,
     require => File['data dir'],
   }
 
