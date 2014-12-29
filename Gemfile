@@ -6,6 +6,6 @@ group :test do
   gem 'puppet-syntax', '~> 1.2.0'
   gem 'puppet-lint', '~> 0.4.0.pre1'
   gem 'rspec-puppet', '~> 1.0.1'
-  gem 'puppetlabs_spec_helper', '~> 0.5.2'
+  gem 'puppetlabs_spec_helper', '~> 0.6.0'
   gem 'coveralls', :require => false
 end

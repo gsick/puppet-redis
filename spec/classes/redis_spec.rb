@@ -5,23 +5,22 @@ describe 'redis' do
   let(:hiera_config) { 'spec/fixtures/hiera/hiera.yaml' }
   let(:parser) { 'future' }
 
-  it { should contain_class('singleton') }
-  it { should contain_package('singleton_package_wget') }
-  it { should contain_package('singleton_package_gcc') }
+  it { should contain_package('wget') }
+  it { should contain_package('gcc') }
 
   context "with default param" do
 
     it do
       should contain_file('conf dir').with({
-        'ensure'    => 'directory',
-        'path'  => '/etc/redis',
+        'ensure' => 'directory',
+        'path'   => '/etc/redis',
       })
     end
 
     it do
       should contain_file('data dir').with({
-        'ensure'    => 'directory',
-        'path'  => '/var/lib/redis',
+        'ensure' => 'directory',
+        'path'   => '/var/lib/redis',
       })
     end
 

@@ -10,4 +10,7 @@ RSpec.configure do |c|
     :operatingsystem => 'CentOS',
     :architecture    => 'x86_64',
   }
+  c.before :each do
+    Puppet.settings[:parser] = 'future'
+  end
 end
