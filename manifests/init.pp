@@ -162,7 +162,7 @@ class redis(
     file_line { 'sysctl net.core.somaxconn':
       path  => '/etc/sysctl.conf',
       line  => 'net.core.somaxconn = 1024',
-      match => '^((net.core.somaxconn = )[0-1]{1})$',
+      match => '^((net.core.somaxconn = )[0-9]+)$',
     }
 
     # apply now
