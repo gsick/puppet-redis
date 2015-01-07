@@ -55,6 +55,7 @@ class redis(
   validate_absolute_path($conf_dir)
   validate_absolute_path($data_dir)
   validate_bool($sysctl)
+  validate_bool($limits)
   validate_absolute_path($tmp)
 
   ensure_packages(['gcc', 'wget'])
