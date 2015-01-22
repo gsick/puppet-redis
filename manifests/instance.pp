@@ -140,7 +140,7 @@ define redis::instance(
     owner   => root,
     group   => root,
     mode    => '0755',
-    content => template("${module_name}/redis_port.erb"),
+    content => template("${module_name}/redis_port_${operatingsystem}.erb"),
     notify  => Service["redis ${servername}"],
   }
 

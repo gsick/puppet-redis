@@ -46,6 +46,11 @@ class redis(
   $sysctl           = true,
   $limits           = true,
   $tmp              = '/tmp',
+  $shell            = $operatingsystem ? {
+    /^(RedHat|CentOS)$/  => '/sbin/nologin',
+    /^(Debian|Ubuntu)$/  => '/usr/sbin/nologin',
+    default              => '/sbin/nologin',
+  }
 ) {
 
   validate_string($version)
@@ -80,7 +85,7 @@ class redis(
       uid     => $user_uid,
       groups  => $group,
       comment => 'redis db user',
-      shell   => '/sbin/nologin',
+      shell   => $shell,
       system  => true,
       require => Group['redis group'],
     }
@@ -90,7 +95,7 @@ class redis(
       name    => $user,
       groups  => $group,
       comment => 'redis db user',
-      shell   => '/sbin/nologin',
+      shell   => $shell,
       system  => true,
       require => Group['redis group'],
     }
